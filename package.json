@@ -1,0 +1,42 @@
+{
+  "name": "rpl-www",
+  "version": "0.8.0",
+  "description": "repl",
+  "main": "index.js",
+  "scripts": {
+    "start": "watchify -d index.js -o bundle.js & st -nc",
+    "test": "tape test.js"
+  },
+  "bin": {
+    "rpl": "rpl.js"
+  },
+  "browserify": {
+    "transform": [
+      "6to5ify"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tmcw/rpl.git"
+  },
+  "author": "Tom MacWright",
+  "license": "ISC",
+  "dependencies": {
+    "6to5ify": "^3.1.0",
+    "brfs": "~1.2.0",
+    "browserify": "~8.0.0",
+    "codemirror": "^4.10.0",
+    "is-geojson": "^1.0.1",
+    "json-stringify-safe": "~5.0.0",
+    "lodash": "^2.4.1",
+    "mapbox.js": "^2.1.4",
+    "react": "^0.12.2",
+    "st": "~0.5.2",
+    "stream-combiner": "^0.2.1",
+    "terrarium-stream": "^1.4.0",
+    "through": "~2.3.6"
+  },
+  "devDependencies": {
+    "tape": "^3.0.3"
+  }
+}

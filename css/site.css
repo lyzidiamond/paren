@@ -1,0 +1,60 @@
+body {
+  margin:0;
+  padding:0;
+  font:normal 20px/35px sans-serif;
+}
+
+#error {
+  float:right;
+  padding-right:5px;
+  color:#eaa;
+}
+
+.error {
+  color:#eaa;
+}
+
+#editor {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  color:#fff;
+}
+
+.data {
+  background:#000;
+  border-top:1px solid #222;
+  border-bottom:2px solid #222;
+  color:#fff;
+  position:relative;
+  padding:5px 5px 5px 5px;
+  margin:5px 0;
+}
+
+.data-name {
+  position:absolute;
+  padding:0 10px;
+  top:0;
+  right:0;
+  line-height:25px;
+  color:white;
+  background:#222;
+  z-index:9999;
+}
+
+code.time {
+  color:#777;
+  margin-right:5px;
+}
+
+.time-control {
+  color:#aee;
+  margin-left:10px;
+}
+
+.time-control a {
+  color:#fff;
+  text-decoration:none;
+}
