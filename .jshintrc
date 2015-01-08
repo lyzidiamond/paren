@@ -9,7 +9,6 @@
     "eqeqeq": true,
     "esnext": true,
     "freeze": true,
-    "quotmark": "single",
     "node": true,
     "globals": {
         "require": true,
