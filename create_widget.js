@@ -29,7 +29,7 @@ module.exports = function(container, value) {
     pre.className = 'json-viewer';
     pre.innerHTML = JSON.stringify(value, null, 2);
     highlight.highlightBlock(pre);
-    element.onadd = function() { };
-    return element;
+    pre.onadd = function() { };
+    return pre;
   }
 };
