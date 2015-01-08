@@ -21,7 +21,7 @@ function ce(_, c) {
  * replace with an editable CodeMirror with live annotations.
  */
 class Rpl {
-  constructor(element) {
+  constructor(element, options) {
     var widgets = [], errors = [], delayedClear, terrarium;
 
     var editor = this.setupEditor(element);
@@ -32,7 +32,7 @@ class Rpl {
       clearTimeout(delayedClear);
       joinWidgets([]);
       if (terrarium) { terrarium.destroy(); }
-      terrarium = new Terrarium();
+      terrarium = new Terrarium(options);
       terrarium
         .on('data', ondata)
         .on('err', onerr)
@@ -53,22 +53,22 @@ class Rpl {
 
     function onerr(err) {
       errors.forEach(e => editor.removeLineWidget(e));
-      if (err instanceof Error && err.lineNumber !== undefined) {
-        var elem = document.createElement('pre');
+      if (err instanceof Error || err instanceof ReferenceError ||
+         // this window's ReferenceError class is not the same
+         // as the iframe's
+         err.toString().match(/ReferenceError/)) {
+        var elem = document.createElement('div');
         elem.innerHTML = err.message;
-        elem.classname = 'error';
+        elem.className = 'rpl-error';
         var widget = editor.addLineWidget(
-          err.lineNumber,
+          err.lineNumber || 0,
           elem, { coverGutter: false, noHScroll: true });
           errors.push(widget);
-      } else {
-        // error.style.display = 'block';
-        // error.innerHTML = err;
-        delayedClear = setTimeout(joinWidgets, 1000);
       }
     }
 
     function joinWidgets(newData) {
+      newData = newData || {};
       // remove old widgets
       widgets.forEach(widget => editor.removeLineWidget(widget));
       errors.forEach(e => editor.removeLineWidget(e));
@@ -76,8 +76,9 @@ class Rpl {
 
       function addWidget(val, id) {
         var line = val[val.length - 1].line - 1;
+        var el = makeWidget(val);
         var widget = editor.addLineWidget(
-          line, makeWidget(val), { coverGutter: false, noHScroll: true });
+          line, el, { coverGutter: false, noHScroll: true });
         return widget;
       }
     }
@@ -87,7 +88,8 @@ class Rpl {
     return CodeMirror(function(elt) {
       element.parentNode.replaceChild(elt, element);
     }, {value:element.textContent || element.innerText}, {
-      indentUnit: 2, mode: 'text/javascript'
+      indentUnit: 2, mode: 'text/javascript',
+      viewportMargin: Infinity
     });
   }
 }
@@ -95,14 +97,14 @@ class Rpl {
 function makeWidget(values) {
   var value = values[values.length - 1],
     msg = ce('div'),
-    pre = msg.appendChild(ce('pre')),
+    div = msg.appendChild(ce('div')),
     n = msg.appendChild(ce('div', 'data-name')),
     name = n.appendChild(ce('span', 'data-var'));
   n.className = 'data-name';
   name.innerHTML = value.name;
   msg.className = 'data';
   try {
-    createWidget(pre, value.val);
+    createWidget(div, value.val);
   } catch(e) { console.error(e); }
   return msg;
 }

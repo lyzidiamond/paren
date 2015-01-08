@@ -1,14 +1,17 @@
-#error {
-  float:right;
-  padding-right:5px;
-  color:#eaa;
-}
-
 .data {
   background:#eee;
   position:relative;
-  padding:5px 5px 5px 5px;
   margin:5px 0;
+}
+
+.data pre {
+  padding: 5px;
+}
+
+.rpl-error {
+  padding: 5px;
+  background:#fde9f3;
+  color:red;
 }
 
 .data-name {
@@ -18,4 +21,18 @@
   right:0;
   line-height:25px;
   z-index:9999;
+  background:#eeeeee;
+}
+
+.CodeMirror, .CodeMirror-scroll {
+  height: auto;
+  min-height:20px;
+}
+
+.json-viewer {
+  max-height:250px;
+}
+
+.map-viewer {
+  height:250px;
 }
