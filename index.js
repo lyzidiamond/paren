@@ -79,6 +79,9 @@ class Rpl {
         var el = makeWidget(val);
         var widget = editor.addLineWidget(
           line, el, { coverGutter: false, noHScroll: true });
+        if (el.widget.onadd) {
+          el.widget.onadd();
+        }
         return widget;
       }
     }
@@ -104,7 +107,7 @@ function makeWidget(values) {
   name.innerHTML = value.name;
   msg.className = 'data';
   try {
-    createWidget(div, value.val);
+    msg.widget = createWidget(div, value.val);
   } catch(e) { console.error(e); }
   return msg;
 }

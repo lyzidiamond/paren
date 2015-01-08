@@ -1,6 +1,6 @@
 {
   "name": "rpl-www",
-  "version": "0.8.0",
+  "version": "0.0.0",
   "description": "repl",
   "main": "index.js",
   "scripts": {
@@ -26,8 +26,6 @@
     "debounce": "^1.0.0",
     "geojsonhint": "^0.3.4",
     "highlight.js": "^8.4.0",
-    "is-geojson": "^1.0.1",
-    "json-stringify-safe": "~5.0.0",
     "mapbox.js": "^2.1.4"
   },
   "devDependencies": {

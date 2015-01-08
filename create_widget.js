@@ -15,13 +15,21 @@ module.exports = function(container, value) {
   if (!geojsonhint(JSON.stringify(value)).length) {
     var element = container.appendChild(document.createElement('div'));
     element.className = 'map-viewer';
-    element.map = L.mapbox.map(element, 'tmcw.map-7s15q36b', {
-      zoomControl: false })
-      .addLayer(L.mapbox.featureLayer(value));
+    var featureLayer = L.mapbox.featureLayer(value);
+    var map = L.mapbox.map(element, 'tmcw.map-7s15q36b', {
+      zoomControl: false, maxZoom: 15
+    }).addLayer(featureLayer);
+    map.fitBounds(featureLayer.getBounds());
+    element.onadd = function() {
+      map.invalidateSize();
+    };
+    return element;
   } else {
     var pre = container.appendChild(document.createElement('pre'));
     pre.className = 'json-viewer';
     pre.innerHTML = JSON.stringify(value, null, 2);
     highlight.highlightBlock(pre);
+    element.onadd = function() { };
+    return element;
   }
 };
