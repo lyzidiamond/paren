@@ -53,10 +53,7 @@ class Rpl {
 
     function onerr(err) {
       errors.forEach(e => editor.removeLineWidget(e));
-      if (err instanceof Error || err instanceof ReferenceError ||
-         // this window's ReferenceError class is not the same
-         // as the iframe's
-         err.toString().match(/ReferenceError/)) {
+      if (err.message) {
         var elem = document.createElement('div');
         elem.innerHTML = err.message;
         elem.className = 'rpl-error';

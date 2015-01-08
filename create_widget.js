@@ -12,7 +12,7 @@ function ce(_, c) {
 }
 
 module.exports = function(container, value) {
-  if (!geojsonhint(JSON.stringify(value)).length) {
+  if (value && !geojsonhint(JSON.stringify(value)).length) {
     var element = container.appendChild(document.createElement('div'));
     element.className = 'map-viewer';
     var featureLayer = L.mapbox.featureLayer(value);
