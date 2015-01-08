@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "watchify -d demo.js -o bundle.js & st -nc",
-    "test": "tape test.js"
+    "test": "tape test.js",
+    "build-css": "cat css/*.css > rpl-www.css"
   },
   "browserify": {
     "transform": [

@@ -19,8 +19,8 @@ module.exports = function(container, value) {
     var map = L.mapbox.map(element, 'tmcw.map-7s15q36b', {
       zoomControl: false, maxZoom: 15
     }).addLayer(featureLayer);
-    map.fitBounds(featureLayer.getBounds());
     element.onadd = function() {
+      map.fitBounds(featureLayer.getBounds());
       map.invalidateSize();
     };
     return element;
