@@ -17,7 +17,7 @@ module.exports = function(container, value) {
     element.className = 'map-viewer';
     var featureLayer = L.mapbox.featureLayer(value);
     var map = L.mapbox.map(element, 'tmcw.map-7s15q36b', {
-      zoomControl: false, maxZoom: 15
+      zoomControl: false, maxZoom: 15, scrollWheelZoom: false
     }).addLayer(featureLayer);
     element.onadd = function() {
       map.fitBounds(featureLayer.getBounds());
