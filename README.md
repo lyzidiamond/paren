@@ -3,6 +3,19 @@
 The magic of [rpl](https://github.com/tmcw/rpl), as a JavaScript library that you
 can embed in existing pages.
 
+This adds a textarea into your page, but more importantly a love-coding environment.
+It'll surface errors, whether syntax or runtime, and using magic `//=` comments,
+lets you display results of your programs in the same place as their code,
+dramatically tightening the feedback loop of writing software and enabling
+ideas like inline, live code examples.
+
+Under the hood, most of the execution magic is in [Terrarium](https://github.com/tmcw/terrarium),
+a library that instruments code with [esprima](http://esprima.org/) and
+[escodegen](https://github.com/estools/escodegen) and runs it in `iframe` sandboxes.
+The user-facing interface is powered by [CodeMirror](http://codemirror.net/)
+and displays detected [GeoJSON](http://geojson.org/) data with
+[Mapbox.js](https://www.mapbox.com/mapbox.js/).
+
 ## Usage
 
 Recommended usage is with [browserify](http://browserify.org/): this is a
