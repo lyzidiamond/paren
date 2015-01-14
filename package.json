@@ -4,7 +4,7 @@
   "description": "repl",
   "main": "index.js",
   "scripts": {
-    "start": "watchify -d demo.js -o bundle.js & st -nc",
+    "start": "watchify -d example/index.js -o example/bundle.js & st -nc",
     "test": "tape test.js",
     "build-css": "cat css/*.css > rpl-www.css"
   },
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:tmcw/rpl.git"
+    "url": "git@github.com:tmcw/rpl-www.git"
   },
   "author": "Tom MacWright",
   "license": "ISC",

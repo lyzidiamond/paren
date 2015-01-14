@@ -41,21 +41,14 @@ class Rpl {
 
     function ondata(d) {
       clearTimeout(delayedClear);
-      if (d.error) {
-        // error.style.display = 'block';
-        // error.innerHTML = d.error;
-        // delayedClear = setTimeout(joinWidgets, 1000);
-      } else {
-        // error.style.display = 'none';
-        joinWidgets(d);
-      }
+      joinWidgets(d);
     }
 
     function onerr(err) {
       errors.forEach(e => editor.removeLineWidget(e));
       if (err.message) {
         var elem = document.createElement('div');
-        elem.innerHTML = err.message;
+        elem.innerHTML = err.toString();
         elem.className = 'rpl-error';
         var widget = editor.addLineWidget(
           err.lineNumber || 0,

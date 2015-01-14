@@ -1,0 +1,26 @@
+<html>
+  <head>
+  <meta charset='UTF-8'>
+  <link href='../css/codemirror.css' rel='stylesheet' />
+  <link href='../css/site.css' rel='stylesheet' />
+  <link href='../css/theme.css' rel='stylesheet' />
+  <link href='../css/mapboxjs.css' rel='stylesheet' />
+  <link href='../css/tomorrow.css' rel='stylesheet' />
+  <link href='../base.css' rel='stylesheet' />
+  <title>rpl</title>
+  </head>
+  <body class='fill-grey'>
+    <div id='error'></div>
+    <div class='col8'>
+<div id='editor'>
+var a = 1;
+var b = 1;
+var c = a + b;
+//=c
+throw new Error('hi');
+</div>
+</div>
+    <script src='../turf.js'></script>
+    <script src='bundle.js'></script>
+  </body>
+</html>
