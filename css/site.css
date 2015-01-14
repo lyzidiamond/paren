@@ -18,10 +18,12 @@
   position:absolute;
   padding:0 10px;
   top:0;
+  box-sizing:border-box;
   right:0;
-  line-height:25px;
+  line-height:23px;
   z-index:9999;
-  background:#eeeeee;
+  background:#fff;
+  border:1px solid #aaa;
 }
 
 .CodeMirror, .CodeMirror-scroll {
@@ -31,6 +33,7 @@
 
 .json-viewer {
   max-height:250px;
+  overflow:auto;
 }
 
 .map-viewer {

@@ -1,19 +1,19 @@
 /* global L */
+require('codemirror/mode/javascript/javascript');
+require('mapbox.js');
+
 var debounce = require('debounce'),
   CodeMirror = require('codemirror'),
-  Terrarium = require('terrarium').Browser;
-require('codemirror/mode/javascript/javascript');
-
-require('mapbox.js');
-var geojsonhint = require('geojsonhint').hint,
+  Terrarium = require('terrarium').Browser,
+  geojsonhint = require('geojsonhint').hint,
   highlight = require('highlight.js');
-
 
 var pairs = (o) => Object.keys(o).map(k => [k, o[k]]);
 
-function ce(_, c) {
+function ce(_, c, inner) {
   var elem = document.createElement(_);
   elem.className = c || '';
+  if (inner) elem.innerHTML = inner;
   return elem;
 }
 
@@ -51,8 +51,7 @@ class Rpl {
   onerr(err) {
     this.clearErrors();
     if (err.message) {
-      var elem = ce('div', 'rpl-error');
-      elem.innerHTML = err.toString();
+      var elem = ce('div', 'rpl-error', err.toString());
       this.errors.push(this.editor.addLineWidget(err.lineNumber || 0,
         elem, { coverGutter: false, noHScroll: true }));
     }
@@ -82,7 +81,7 @@ class Rpl {
       var el = this.makeWidget(val);
       var widget = this.editor.addLineWidget(
         line, el, { coverGutter: false, noHScroll: true });
-      if (el.widget.onadd) el.widget.onadd();
+      if (el.onadd) el.onadd();
       return widget;
     });
   }
@@ -98,40 +97,32 @@ class Rpl {
 
   makeWidget(values) {
     var value = values[values.length - 1],
-      msg = ce('div'),
-      div = msg.appendChild(ce('div')),
-      n = msg.appendChild(ce('div', 'data-name')),
+      msg = ce('div', 'data'),
+      n = msg.appendChild(ce('div', 'data-name', value.name)),
       name = n.appendChild(ce('span', 'data-var'));
-    n.className = 'data-name';
-    name.innerHTML = value.name;
-    msg.className = 'data';
     try {
-      msg.widget = this.fillWidget(div, value.val);
+      this.fillWidget(msg, value.val);
+      return msg;
     } catch(e) { console.error(e); }
     return msg;
   }
 
   fillWidget(container, value) {
     L.mapbox.accessToken = this.options.accessToken;
-
     if (value && !geojsonhint(JSON.stringify(value)).length) {
       var element = container.appendChild(ce('div', 'map-viewer')),
         featureLayer = L.mapbox.featureLayer(value),
         map = L.mapbox.map(element, this.options.mapid, {
         zoomControl: false, maxZoom: 15, scrollWheelZoom: false
       }).addLayer(featureLayer);
-      element.onadd = function() {
+      container.onadd = function() {
         map.fitBounds(featureLayer.getBounds());
         map.invalidateSize();
       };
-      return element;
-    } else {
-      var pre = container.appendChild(ce('pre', 'json-viewer'));
-      pre.innerHTML = JSON.stringify(value, null, 2);
-      highlight.highlightBlock(pre);
-      pre.onadd = function() { };
-      return pre;
     }
+    var pre = container.appendChild(
+      ce('pre', 'json-viewer', JSON.stringify(value, null, 2)));
+    highlight.highlightBlock(pre);
   }
 }
 
