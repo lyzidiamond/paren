@@ -6,7 +6,7 @@ var debounce = require('debounce'),
   CodeMirror = require('codemirror'),
   Terrarium = require('terrarium').Browser,
   geojsonhint = require('geojsonhint').hint,
-  highlight = require('highlight.js');
+  highlight = require('./highlight.pack.js');
 
 var pairs = (o) => Object.keys(o).map(k => [k, o[k]]);
 
