@@ -1,6 +1,6 @@
 {
   "name": "rpl-www",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "repl",
   "main": "index.js",
   "scripts": {
