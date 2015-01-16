@@ -26,7 +26,6 @@
     "codemirror": "^4.10.0",
     "debounce": "^1.0.0",
     "geojsonhint": "^0.3.4",
-    "highlight.js": "^8.4.0",
     "mapbox.js": "^2.1.4",
     "terrarium": "^2.1.1"
   },

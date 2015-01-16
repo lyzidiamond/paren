@@ -5,8 +5,7 @@ require('mapbox.js');
 var debounce = require('debounce'),
   CodeMirror = require('codemirror'),
   Terrarium = require('terrarium').Browser,
-  geojsonhint = require('geojsonhint').hint,
-  highlight = require('highlight.js');
+  geojsonhint = require('geojsonhint').hint;
 
 var pairs = (o) => Object.keys(o).map(k => [k, o[k]]);
 
@@ -147,8 +146,8 @@ class Rpl {
       };
     }
     var pre = container.appendChild(
-      ce('pre', 'json-viewer', JSON.stringify(value, null, 2)));
-    highlight.highlightBlock(pre);
+      ce('pre', typeof value === 'object' ? 'json-viewer' : 'json-viewer big',
+         JSON.stringify(value, null, 2)));
   }
 }
 

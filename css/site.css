@@ -36,6 +36,10 @@
   overflow:auto;
 }
 
+.json-viewer.big {
+  font-size:200%;
+}
+
 .map-viewer {
   height:250px;
 }
