@@ -1,10 +1,10 @@
-.data {
+.rpl-data {
   background:#eee;
   position:relative;
   margin:5px 0;
 }
 
-.data pre {
+.rpl-data pre {
   padding: 5px;
 }
 
@@ -14,7 +14,7 @@
   color:red;
 }
 
-.data-name {
+.rpl-data .data-name {
   position:absolute;
   padding:0 10px;
   top:0;
@@ -31,16 +31,16 @@
   min-height:20px;
 }
 
-.json-viewer {
-  max-height:250px;
-  overflow:auto;
+.rpl-data .json-viewer {
+  max-height:150px;
+  overflow:auto !important;
 }
 
-.json-viewer.big {
+.rpl-data .json-viewer.big {
   font-size:200%;
 }
 
-.map-viewer {
+.rpl-data .map-viewer {
   height:250px;
 }
 

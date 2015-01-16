@@ -122,7 +122,7 @@ class Rpl {
 
   makeWidget(values) {
     var value = values[values.length - 1],
-      msg = ce('div', 'data'),
+      msg = ce('div', 'rpl-data'),
       n = msg.appendChild(ce('div', 'data-name', value.name)),
       name = n.appendChild(ce('span', 'data-var'));
     try {
