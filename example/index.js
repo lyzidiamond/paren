@@ -5,6 +5,7 @@ new Rpl(document.getElementById('editor'), {
     turf: turf
   },
   tips: [
-    ['turf.point', 'Create a GeoJSON Point']
+    ['turf.point', 'Create a GeoJSON Point'],
+    ['console.log', 'Console log is blah blah blah blah blah blah blah blah blah blah ']
   ]
 });

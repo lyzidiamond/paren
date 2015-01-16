@@ -1162,7 +1162,8 @@ span.CodeMirror-selectedtext { background: none; }
     border-radius: 3px;
     bottom: 1.35em;
     color: #222;
-    content: attr(title);
+    width:300px;
+    white-space:normal !important;
     display: block;
     left: 1em;
     padding: 3px;
