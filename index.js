@@ -138,8 +138,13 @@ class Rpl {
       var element = container.appendChild(ce('div', 'map-viewer')),
         featureLayer = L.mapbox.featureLayer(value),
         map = L.mapbox.map(element, this.options.mapid, {
-        zoomControl: false, maxZoom: 15, scrollWheelZoom: false
-      }).addLayer(featureLayer);
+          zoomControl: false, maxZoom: 15, scrollWheelZoom: false
+        }).addLayer(featureLayer);
+      featureLayer.eachLayer(function(layer) {
+        if (Object.keys(layer.feature.properties).length) {
+          layer.bindPopup('<pre>' + JSON.stringify(layer.feature.properties, null, 2) + '</pre>');
+        }
+      });
       container.onadd = function() {
         map.fitBounds(featureLayer.getBounds());
         map.invalidateSize();
