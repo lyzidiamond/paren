@@ -31,7 +31,8 @@ CSS for [CodeMirror](http://codemirror.net/) and rpl-www's custom line widgets.
 ```js
 var Rpl = require('rpl-www');
 new Rpl(element, {
-  sandbox: { /* optional things to give in scope */ }
+  sandbox: { /* optional things to give in scope */ },
+  tips: ["searchtext", "tipcontent"]
 });
 ```
 
@@ -45,3 +46,6 @@ The main export is a constructor function that takes arguments of
   this allows you to provide libraries or data into the Rpl context. Otherwise
   the Rpl context is fresh and does not persist any variables or grab any
   variables from the current context.
+  * `tips` is an array of 2-element arrays of strings. It specifies specific
+  terms, most likely funciton names, to document inline with CodeMirror's
+  markText method.

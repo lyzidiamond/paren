@@ -26,12 +26,14 @@ class Rpl {
   constructor(element, options) {
     this.element = element;
     this.options = options || {};
+    this.options.tips = this.options.tips || [];
     this.options.mapid = this.options.mapid || 'tmcw.map-7s15q36b';
     this.options.accessToken = this.options.accessToken || 'pk.eyJ1IjoidG1jdyIsImEiOiJIZmRUQjRBIn0.lRARalfaGHnPdRcc-7QZYQ';
     this.widgets = [];
     this.errors = [];
     this.delayedClear = null;
     this.terrarium = null;
+    this.inlineStyle = document.body.appendChild(document.createElement('style'));
     this.editor = this.setupEditor(this.element);
     this.editor.on('change', debounce(this.onchange.bind(this), 200));
     this.onchange();
@@ -46,6 +48,30 @@ class Rpl {
       .on('data', this.ondata.bind(this))
       .on('err', this.onerr.bind(this))
       .run(this.editor.getValue());
+    this.addMarks();
+  }
+
+  addMarks() {
+    if (!this.options.tips.length) return;
+    var cssContent = {};
+    this.editor.eachLine(lineHandle => {
+      this.options.tips.forEach(tip => {
+        var ch = lineHandle.text.indexOf(tip[0]);
+        if (ch !== -1) {
+          var line = this.editor.getLineNumber(lineHandle);
+          var classHash = 'c-' + window.btoa(tip[1]).replace(/(=|\/|\+)/g, '');
+          cssContent[classHash] = tip[1];
+          this.editor.markText({ line, ch }, { line, ch: ch + tip[0].length }, {
+            className: 'has-tip ' + classHash
+          });
+        }
+      });
+    });
+    var cssString = '';
+    for (var k in cssContent) {
+      cssString += '.' + k + ':hover:after{content:' + JSON.stringify(cssContent[k]) + ';}';
+    }
+    this.inlineStyle.innerHTML = cssString;
   }
 
   onerr(err) {
