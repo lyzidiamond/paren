@@ -34,11 +34,12 @@ class Rpl {
     this.terrarium = null;
     this.inlineStyle = document.body.appendChild(document.createElement('style'));
     this.editor = this.setupEditor(this.element);
-    this.editor.on('change', debounce(this.onchange.bind(this), 200));
+    this.editor.on('change', debounce(this.onchange.bind(this), 1000));
     this.onchange();
   }
 
   onchange() {
+    console.log('here');
     clearTimeout(this.delayedClear);
     this.joinWidgets({});
     if (this.terrarium) { this.terrarium.destroy(); }

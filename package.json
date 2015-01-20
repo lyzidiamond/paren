@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "watchify -d example/index.js -o example/bundle.js & st -nc",
+    "start-play": "watchify -d play/index.js -o play/bundle.js & st -nc",
     "test": "tape test.js",
     "build-css": "cat css/*.css > rpl-www.css"
   },
@@ -22,6 +23,8 @@
   "dependencies": {
     "6to5ify": "^3.1.0",
     "brfs": "~1.2.0",
+    "browser-module-cache": "^0.1.3",
+    "browser-request": "^0.3.3",
     "browserify": "~8.0.0",
     "codemirror": "^4.10.0",
     "debounce": "^1.0.0",
