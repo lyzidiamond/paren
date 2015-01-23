@@ -5,6 +5,7 @@ new Rpl(document.getElementById('editor'), {
   sandbox: {
     turf: turf
   },
+  explicit: true,
   tips: docs.functions.map(fToTip)
 });
 

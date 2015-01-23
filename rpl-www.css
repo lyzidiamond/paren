@@ -1142,6 +1142,7 @@ span.CodeMirror-selectedtext { background: none; }
 .rpl-data .json-viewer {
   max-height:150px;
   overflow:auto !important;
+  font-size: 70%;
 }
 
 .rpl-data .json-viewer.big {

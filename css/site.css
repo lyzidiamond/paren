@@ -33,7 +33,8 @@
 
 .rpl-data .json-viewer {
   max-height:150px;
-  overflow:auto !important;
+  overflow:hidden;
+  font-size: 70%;
 }
 
 .rpl-data .json-viewer.big {

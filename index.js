@@ -26,6 +26,7 @@ class Rpl {
     this.element = element;
     this.options = options || {};
     this.options.tips = this.options.tips || [];
+    this.options.explicit = this.options.explicit === true;
     this.options.mapid = this.options.mapid || 'tmcw.map-7s15q36b';
     this.options.accessToken = this.options.accessToken || 'pk.eyJ1IjoidG1jdyIsImEiOiJIZmRUQjRBIn0.lRARalfaGHnPdRcc-7QZYQ';
     this.widgets = [];
@@ -34,12 +35,19 @@ class Rpl {
     this.terrarium = null;
     this.inlineStyle = document.body.appendChild(document.createElement('style'));
     this.editor = this.setupEditor(this.element);
-    this.editor.on('change', debounce(this.onchange.bind(this), 1000));
+    if (!this.options.explicit) {
+      this.editor.on('change', debounce(this.onchange.bind(this), 1000));
+    } else {
+      this.editor.setOption('extraKeys', {
+        'Ctrl-X': (cm) => {
+          this.onchange();
+        }
+      });
+    }
     this.onchange();
   }
 
   onchange() {
-    console.log('here');
     clearTimeout(this.delayedClear);
     this.joinWidgets({});
     if (this.terrarium) { this.terrarium.destroy(); }
