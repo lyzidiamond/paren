@@ -3,7 +3,7 @@
 The magic of [rpl](https://github.com/tmcw/rpl), as a JavaScript library that you
 can embed in existing pages.
 
-This adds a textarea into your page, but more importantly a love-coding environment.
+This adds a textarea into your page, but more importantly a live-coding environment.
 It'll surface errors, whether syntax or runtime, and using magic `//=` comments,
 lets you display results of your programs in the same place as their code,
 dramatically tightening the feedback loop of writing software and enabling
