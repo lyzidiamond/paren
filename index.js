@@ -4,7 +4,7 @@ require('mapbox.js');
 
 var debounce = require('debounce'),
   CodeMirror = require('codemirror'),
-  Terrarium = require('terrarium').Browser,
+  Terrarium = require('terrarium'),
   geojsonhint = require('geojsonhint').hint;
 
 var pairs = (o) => Object.keys(o).map(k => [k, o[k]]);
@@ -38,12 +38,15 @@ class Rpl {
     this.onchange();
   }
 
+  export(type) {
+    return Terrarium.instrument(this.editor.getValue(), 0, type).source;
+  }
+
   onchange() {
-    console.log('here');
     clearTimeout(this.delayedClear);
     this.joinWidgets({});
     if (this.terrarium) { this.terrarium.destroy(); }
-    this.terrarium = new Terrarium(this.options);
+    this.terrarium = new Terrarium.Browser(this.options);
     this.terrarium
       .on('data', this.ondata.bind(this))
       .on('err', this.onerr.bind(this))

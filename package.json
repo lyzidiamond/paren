@@ -11,7 +11,8 @@
   },
   "browserify": {
     "transform": [
-      "6to5ify"
+      "6to5ify",
+      "brfs"
     ]
   },
   "repository": {

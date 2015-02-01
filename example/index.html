@@ -22,28 +22,27 @@
           <a class='icon github' href='https://github.com/tmcw/rpl-www'>Source Code &amp; Documentation on Github</a>
           </p>
         </div>
+          <div class='col12 clearfix unlimiter'>
+      <a
+        class='button col6 small unround'
+        id='export-html'>export as webpage</a>
+      <a
+        class='button col6 small unround'
+        id='export-node'>export as node</a>
+  </div>
+<div id='export' class='hidden'>
+    <div class='pad2 dark'>
+        <h3>Export</h3>
+        <pre id='export-content'>
+        </pre>
+    </div>
+</div>
         <div class='pad2'>
 <div id='editor'>
-
-console.log('foo');
-var pt = turf.point(0, 0);
-//=pt
-
-var a = 1;
-var c = a + 1;
-//=c
-
-function addTwoNumbers(a, b) {
-    //=a
-    //=b
-    return a + b;
-}
-
-var result = addTwoNumbers(10, 32);
-//=result
 </div>
 </div>
 </div>
+
     <script src='../turf.js'></script>
     <script src='bundle.js'></script>
   </body>
