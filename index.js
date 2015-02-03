@@ -42,13 +42,13 @@ class Rpl {
     return Terrarium.instrument(this.editor.getValue(), 0, type).source;
   }
 
-  onchange() {
+  onchange(persist) {
     clearTimeout(this.delayedClear);
-    this.joinWidgets({});
+    if (!persist) { this.joinWidgets({}); }
     if (this.terrarium) { this.terrarium.destroy(); }
     this.terrarium = new Terrarium.Browser(this.options);
     this.terrarium
-      .on('data', this.ondata.bind(this))
+      .on('data', this.ondata.bind(this, persist))
       .on('err', this.onerr.bind(this))
       .run(this.editor.getValue());
     this.addMarks();
@@ -86,9 +86,9 @@ class Rpl {
     }
   }
 
-  ondata(d) {
+  ondata(persist, d) {
     clearTimeout(this.delayedClear);
-    this.joinWidgets(d);
+    this.joinWidgets(d, persist);
   }
 
   clearErrors() {
@@ -101,18 +101,28 @@ class Rpl {
     this.widgets = [];
   }
 
-  joinWidgets(newData) {
-    this.clearWidgets();
-    this.clearErrors();
-    this.widgets = pairs(newData || {}).map(p => {
-      var [id, val] = p;
-      var line = val[val.length - 1].line - 1;
-      var el = this.makeWidget(val);
-      var widget = this.editor.addLineWidget(
-        line, el, { coverGutter: false, noHScroll: true });
-      if (el.onadd) el.onadd();
-      return widget;
-    });
+  joinWidgets(newData, persist) {
+    console.log(persist);
+    if (!persist) {
+      this.clearWidgets();
+      this.clearErrors();
+      this.widgets = pairs(newData || {}).map(p => {
+        var [id, val] = p;
+        var line = val[val.length - 1].line - 1;
+        var el = this.makeWidget(val);
+        var widget = this.editor.addLineWidget(
+          line, el, { coverGutter: false, noHScroll: true });
+        widget.setData = el.setData;
+        if (el.onadd) el.onadd();
+        return widget;
+      });
+    } else {
+      this.clearErrors();
+      var updates = pairs(newData || {});
+      this.widgets.forEach(function(widget, i) {
+        if ('setData' in widget) widget.setData(updates[i]);
+      });
+    }
   }
 
   setupEditor(element) {
@@ -144,6 +154,19 @@ class Rpl {
         map = L.mapbox.map(element, this.options.mapid, {
           zoomControl: false, maxZoom: 15, scrollWheelZoom: false
         }).addLayer(featureLayer);
+      container.map = map;
+      map.featureLayer = featureLayer;
+      map.on('mousemove', (e) => {
+        this.options.sandbox.mouse = {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [e.latlng.lng, e.latlng.lat]
+          },
+          properties: {}
+        };
+        this.onchange(true);
+      });
       featureLayer.eachLayer(function(layer) {
         if (Object.keys(layer.feature.properties).length) {
           layer.bindPopup('<pre>' + JSON.stringify(layer.feature.properties, null, 2) + '</pre>');
@@ -152,6 +175,10 @@ class Rpl {
       container.onadd = function() {
         map.fitBounds(featureLayer.getBounds());
         map.invalidateSize();
+      };
+      container.setData = function(values) {
+        var value = values[values.length - 1][0].val;
+        featureLayer.setGeoJSON(value);
       };
     }
     var pre = container.appendChild(
