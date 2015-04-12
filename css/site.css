@@ -1,4 +1,4 @@
-body {
+body.paren {
   font-size:20px;
 }
 
@@ -18,32 +18,7 @@ body {
   color:red;
 }
 
-.rpl-data .data-name {
-  position:absolute;
-  padding:0 10px;
-  top:0;
-  box-sizing:border-box;
-  right:0;
-  line-height:23px;
-  z-index:9999;
-  background:#fff;
-  border:1px solid #aaa;
-}
-
 .CodeMirror, .CodeMirror-scroll {
   height: auto;
   min-height:20px;
-}
-
-.rpl-data .json-viewer {
-  max-height:150px;
-  overflow:auto !important;
-}
-
-.rpl-data .json-viewer.big {
-  font-size:200%;
-}
-
-.rpl-data .map-viewer {
-  height:250px;
 }

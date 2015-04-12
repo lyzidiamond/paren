@@ -51,7 +51,7 @@ class Paren {
   onerr(err) {
     this.clearErrors();
     if (err.message) {
-      var elem = ce('div', 'rpl-error', err.toString());
+      var elem = ce('div', 'px1 py1 red bg-darken-1 rounded', err.toString());
       this.errors.push(this.editor.addLineWidget(err.lineNumber || 0,
         elem, { coverGutter: false, noHScroll: true }));
     }
@@ -78,10 +78,12 @@ class Paren {
     this.widgets = pairs(newData || {}).map(p => {
       var [id, val] = p;
       var line = val[val.length - 1].line - 1;
-      var el = this.makeWidget(val);
+      var container = document.createElement('div');
+      var root = container.createShadowRoot();
+      this.makeWidget(root, val);
       var widget = this.editor.addLineWidget(
-        line, el, { coverGutter: false, noHScroll: true });
-      if (el.onadd) el.onadd();
+        line, container, { coverGutter: false, noHScroll: true });
+      if (container.onadd) container.onadd();
       return widget;
     });
   }
@@ -89,31 +91,26 @@ class Paren {
   setupEditor(element) {
     var editor = CodeMirror(function(elt) {
       element.parentNode.replaceChild(elt, element);
-    }, {
+    }, { value: element.textContent || element.innerText }, {
       indentUnit: 2,
       mode: 'text/javascript',
       viewportMargin: Infinity,
       theme: 'default big'
     });
-    editor.setSize(null, window.innerHeight);
     return editor;
   }
 
-  makeWidget(values) {
-    var value = values[values.length - 1],
-      msg = ce('div', 'rpl-data'),
-      n = msg.appendChild(ce('div', 'data-name', value.name)),
-      name = n.appendChild(ce('span', 'data-var'));
+  makeWidget(root, values) {
+    var value = values[values.length - 1];
     try {
-      this.fillWidget(msg, value.val);
-      return msg;
+      this.fillWidget(root, value.val);
     } catch(e) { console.error(e); }
-    return msg;
   }
 
   fillWidget(container, value) {
+    container.appendChild(ce('style', '', '@import "css/basscss.css"'));
     var pre = container.appendChild(
-      ce('pre', 'json-viewer', JSON.stringify(value, null, 2)));
+      ce('pre', 'px1 py1 bg-silver', JSON.stringify(value, null, 2)));
   }
 }
 

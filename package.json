@@ -7,7 +7,7 @@
     "start": "budo page.js --live"
   },
   "browserify": {
-    "transform": ["babelify"]
+    "transform": ["babelify", "brfs"]
   },
   "repository": {
     "type": "git",
