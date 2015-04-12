@@ -4,6 +4,8 @@ var debounce = require('debounce'),
   CodeMirror = require('codemirror'),
   Terrarium = require('terrarium');
 
+var JsonWidget = require('./widgets/json.js');
+
 var pairs = (o) => Object.keys(o).map(k => [k, o[k]]);
 
 function ce(_, c, inner) {
@@ -24,7 +26,6 @@ class Paren {
     this.options = options || {};
     this.widgets = [];
     this.errors = [];
-    this.delayedClear = null;
     this.terrarium = null;
     this.inlineStyle = document.body.appendChild(document.createElement('style'));
     this.editor = this.setupEditor(this.element);
@@ -37,7 +38,6 @@ class Paren {
   }
 
   onchange() {
-    clearTimeout(this.delayedClear);
     this.clearErrors();
     if (this.terrarium) { this.terrarium.destroy(); }
     this.editor.eachLine(line => {
@@ -66,7 +66,6 @@ class Paren {
   }
 
   ondata(d) {
-    clearTimeout(this.delayedClear);
     this.joinWidgets(d);
   }
 
@@ -124,9 +123,7 @@ class Paren {
   }
 
   fillWidget(container, value) {
-    container.appendChild(ce('style', '', '@import "css/basscss.css"'));
-    var pre = container.appendChild(
-      ce('pre', 'm0 px1 py1 bg-silver', JSON.stringify(value, null, 2)));
+    new JsonWidget(container, value);
   }
 }
 

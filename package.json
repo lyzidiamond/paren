@@ -7,7 +7,10 @@
     "start": "budo page.js --live"
   },
   "browserify": {
-    "transform": ["babelify", "brfs"]
+    "transform": [
+      "babelify",
+      "brfs"
+    ]
   },
   "repository": {
     "type": "git",
@@ -23,10 +26,12 @@
     "browserify": "~9.0.3",
     "budo": "~3.0.0",
     "codemirror": "^5.1.0",
+    "d3": "^3.5.5",
     "debounce": "^1.0.0",
     "insert-css": "^0.2.0",
     "mapbox.js": "^2.1.4",
     "terrarium": "^2.1.1",
+    "vega": "^1.5.0",
     "watchify": "^3.1.0"
   },
   "devDependencies": {
