@@ -16,7 +16,7 @@ class ElementWidget {
   }
 
   static applicable(value) {
-    return value && 'nodeType' in value;
+    return value && typeof value === 'object' && 'nodeType' in value;
   }
 
   update(value) {

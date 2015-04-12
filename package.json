@@ -4,7 +4,8 @@
   "description": "intelligent, transparent programming",
   "main": "index.js",
   "scripts": {
-    "start": "budo page.js --live -d"
+    "start": "budo page.js:bundle.js --live -d",
+    "build": "browserify page.js > bundle.js"
   },
   "browserify": {
     "transform": [
