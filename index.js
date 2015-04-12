@@ -1,4 +1,3 @@
-/* global L */
 require('codemirror/mode/javascript/javascript');
 
 var debounce = require('debounce'),
@@ -78,8 +77,16 @@ class Paren {
     this.widgets = pairs(newData || {}).map(p => {
       var [id, val] = p;
       var line = val[val.length - 1].line - 1;
-      var container = document.createElement('div');
-      var root = container.createShadowRoot();
+      var container = ce('div', 'flex flex-wrap');
+
+      var content = container.appendChild(ce('div', 'flex-auto'));
+      var root = content.createShadowRoot();
+
+      var typeToggle = container.appendChild(ce('div', 'px1', ''));
+      var select = typeToggle.appendChild(ce('select', 'block field-light'));
+      var json = select.appendChild(ce('option', '', 'json'));
+      json.value = 'json';
+
       this.makeWidget(root, val);
       var widget = this.editor.addLineWidget(
         line, container, { coverGutter: false, noHScroll: true });
