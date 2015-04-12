@@ -2,6 +2,10 @@ body.paren {
   font-size:20px;
 }
 
+.bg-light-yellow {
+  background:#fdf15f;
+}
+
 .rpl-data {
   background:#eee;
   position:relative;

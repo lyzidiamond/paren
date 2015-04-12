@@ -28,7 +28,7 @@ class Paren {
     this.terrarium = null;
     this.inlineStyle = document.body.appendChild(document.createElement('style'));
     this.editor = this.setupEditor(this.element);
-    this.editor.on('change', debounce(this.onchange.bind(this), 100));
+    this.editor.on('change', debounce(this.onchange.bind(this), 200));
     this.onchange();
   }
 
@@ -38,13 +38,22 @@ class Paren {
 
   onchange() {
     clearTimeout(this.delayedClear);
-    this.joinWidgets({});
+    this.clearErrors();
     if (this.terrarium) { this.terrarium.destroy(); }
+    this.editor.eachLine(line => {
+      if (line.text.match(/^\s*\/\/\=/)) {
+        this.editor.addLineClass(line, 'background', 'bg-light-yellow');
+      } else {
+        this.editor.removeLineClass(line);
+      }
+    });
+
     this.terrarium = new Terrarium.Browser(this.options);
     this.terrarium
       .on('data', this.ondata.bind(this))
       .on('err', this.onerr.bind(this))
       .run(this.editor.getValue());
+
   }
 
   onerr(err) {
@@ -82,8 +91,8 @@ class Paren {
       var content = container.appendChild(ce('div', 'flex-auto'));
       var root = content.createShadowRoot();
 
-      var typeToggle = container.appendChild(ce('div', 'px1', ''));
-      var select = typeToggle.appendChild(ce('select', 'block field-light'));
+      var typeToggle = container.appendChild(ce('div', 'pl1', ''));
+      var select = typeToggle.appendChild(ce('select', 'py1 block field-light'));
       var json = select.appendChild(ce('option', '', 'json'));
       json.value = 'json';
 
@@ -117,7 +126,7 @@ class Paren {
   fillWidget(container, value) {
     container.appendChild(ce('style', '', '@import "css/basscss.css"'));
     var pre = container.appendChild(
-      ce('pre', 'px1 py1 bg-silver', JSON.stringify(value, null, 2)));
+      ce('pre', 'm0 px1 py1 bg-silver', JSON.stringify(value, null, 2)));
   }
 }
 

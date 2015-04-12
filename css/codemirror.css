@@ -102,7 +102,7 @@ div.CodeMirror-overwrite div.CodeMirror-cursor {}
 .cm-s-default .cm-operator {}
 .cm-s-default .cm-variable-2 {color: #05a;}
 .cm-s-default .cm-variable-3 {color: #085;}
-.cm-s-default .cm-comment {color: #a50;}
+.cm-s-default .cm-comment {color: #000;}
 .cm-s-default .cm-string {color: #a11;}
 .cm-s-default .cm-string-2 {color: #f50;}
 .cm-s-default .cm-meta {color: #555;}
@@ -139,7 +139,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
    the editor. You probably shouldn't touch them. */
 
 .CodeMirror {
-  line-height: 1;
+  line-height: 1.5;
   position: relative;
   overflow: hidden;
   background: white;
