@@ -1,4 +1,4 @@
-## rpl-www
+## paren
 
 The magic of [rpl](https://github.com/tmcw/rpl), as a JavaScript library that you
 can embed in existing pages.

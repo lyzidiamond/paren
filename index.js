@@ -1,11 +1,9 @@
 /* global L */
 require('codemirror/mode/javascript/javascript');
-require('mapbox.js');
 
 var debounce = require('debounce'),
   CodeMirror = require('codemirror'),
-  Terrarium = require('terrarium'),
-  geojsonhint = require('geojsonhint').hint;
+  Terrarium = require('terrarium');
 
 var pairs = (o) => Object.keys(o).map(k => [k, o[k]]);
 
@@ -17,24 +15,21 @@ function ce(_, c, inner) {
 }
 
 /**
- * The Rpl class. This expects to be called with a target of a
+ * The Paren class. This expects to be called with a target of a
  * DOM element (probably a div) with some content, which it will
  * replace with an editable CodeMirror with live annotations.
  */
-class Rpl {
+class Paren {
   constructor(element, options) {
     this.element = element;
     this.options = options || {};
-    this.options.tips = this.options.tips || [];
-    this.options.mapid = this.options.mapid || 'tmcw.map-7s15q36b';
-    this.options.accessToken = this.options.accessToken || 'pk.eyJ1IjoidG1jdyIsImEiOiJIZmRUQjRBIn0.lRARalfaGHnPdRcc-7QZYQ';
     this.widgets = [];
     this.errors = [];
     this.delayedClear = null;
     this.terrarium = null;
     this.inlineStyle = document.body.appendChild(document.createElement('style'));
     this.editor = this.setupEditor(this.element);
-    this.editor.on('change', debounce(this.onchange.bind(this), 1000));
+    this.editor.on('change', debounce(this.onchange.bind(this), 100));
     this.onchange();
   }
 
@@ -51,30 +46,6 @@ class Rpl {
       .on('data', this.ondata.bind(this))
       .on('err', this.onerr.bind(this))
       .run(this.editor.getValue());
-    this.addMarks();
-  }
-
-  addMarks() {
-    if (!this.options.tips.length) return;
-    var cssContent = {};
-    this.editor.eachLine(lineHandle => {
-      this.options.tips.forEach(tip => {
-        var ch = lineHandle.text.indexOf(tip[0]);
-        if (ch !== -1) {
-          var line = this.editor.getLineNumber(lineHandle);
-          var classHash = 'c-' + window.btoa(tip[1]).replace(/(=|\/|\+)/g, '');
-          cssContent[classHash] = tip[1];
-          this.editor.markText({ line, ch }, { line, ch: ch + tip[0].length }, {
-            className: 'has-tip ' + classHash
-          });
-        }
-      });
-    });
-    var cssString = '';
-    for (var k in cssContent) {
-      cssString += '.' + k + ':hover:after{content:' + JSON.stringify(cssContent[k]) + ';}';
-    }
-    this.inlineStyle.innerHTML = cssString;
   }
 
   onerr(err) {
@@ -92,12 +63,12 @@ class Rpl {
   }
 
   clearErrors() {
-    this.errors.forEach(this.editor.removeLineWidget);
+    this.errors.forEach(this.editor.removeLineWidget.bind(this.editor));
     this.errors = [];
   }
 
   clearWidgets() {
-    this.widgets.forEach(this.editor.removeLineWidget);
+    this.widgets.forEach(this.editor.removeLineWidget.bind(this.editor));
     this.widgets = [];
   }
 
@@ -116,12 +87,16 @@ class Rpl {
   }
 
   setupEditor(element) {
-    return CodeMirror(function(elt) {
+    var editor = CodeMirror(function(elt) {
       element.parentNode.replaceChild(elt, element);
-    }, {value:element.textContent || element.innerText}, {
-      indentUnit: 2, mode: 'text/javascript',
-      viewportMargin: Infinity
+    }, {
+      indentUnit: 2,
+      mode: 'text/javascript',
+      viewportMargin: Infinity,
+      theme: 'default big'
     });
+    editor.setSize(null, window.innerHeight);
+    return editor;
   }
 
   makeWidget(values) {
@@ -137,27 +112,9 @@ class Rpl {
   }
 
   fillWidget(container, value) {
-    L.mapbox.accessToken = this.options.accessToken;
-    if (value && !geojsonhint(JSON.stringify(value)).length) {
-      var element = container.appendChild(ce('div', 'map-viewer')),
-        featureLayer = L.mapbox.featureLayer(value),
-        map = L.mapbox.map(element, this.options.mapid, {
-          zoomControl: false, maxZoom: 15, scrollWheelZoom: false
-        }).addLayer(featureLayer);
-      featureLayer.eachLayer(function(layer) {
-        if (Object.keys(layer.feature.properties).length) {
-          layer.bindPopup('<pre>' + JSON.stringify(layer.feature.properties, null, 2) + '</pre>');
-        }
-      });
-      container.onadd = function() {
-        map.fitBounds(featureLayer.getBounds());
-        map.invalidateSize();
-      };
-    }
     var pre = container.appendChild(
-      ce('pre', typeof value === 'object' ? 'json-viewer' : 'json-viewer big',
-         JSON.stringify(value, null, 2)));
+      ce('pre', 'json-viewer', JSON.stringify(value, null, 2)));
   }
 }
 
-module.exports = Rpl;
+module.exports = Paren;

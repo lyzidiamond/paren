@@ -1,3 +1,7 @@
+body {
+  font-size:20px;
+}
+
 .rpl-data {
   background:#eee;
   position:relative;
@@ -42,36 +46,4 @@
 
 .rpl-data .map-viewer {
   height:250px;
-}
-
-.has-tip {
-  border-bottom:2px solid #e1eaf4;
-  position:relative;
-}
-
-.has-tip:hover:after {
-    background: #e1eaf4;
-    border-radius: 3px;
-    bottom: 1.35em;
-    color: #222;
-    width:300px;
-    white-space:normal !important;
-    display: block;
-    left: 1em;
-    padding: 3px;
-    position: absolute;
-    white-space: nowrap;
-    z-index: 98;
-}
-
-.has-tip:hover:before {
-    border: solid;
-    border-color: #e1eaf4 transparent;
-    border-width: .4em .4em 0 .4em;
-    bottom: 1em;
-    content: "";
-    display: block;
-    left: 2em;
-    position: absolute;
-    z-index: 99;
 }
