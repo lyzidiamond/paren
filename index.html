@@ -16,10 +16,12 @@
     </div>
     <div id='editor-wrap' class='px2 py2'>
 <div id='editor'>
-    setInterval(function() {
-    var d = +new Date();
-    //=d
-    }, 100);
+var button = document.createElement('button');
+button.innerHTML = 'hi';
+button.onclick = function(e) {
+    alert('hi');
+};
+//=button
 </div>
     </div>
     <script src='page.js'></script>

@@ -5,6 +5,9 @@ var debounce = require('debounce'),
   Terrarium = require('terrarium');
 
 var JsonWidget = require('./widgets/json.js');
+var ElementWidget = require('./widgets/element.js');
+
+var widgets = [JsonWidget, ElementWidget];
 
 var pairs = (o) => Object.keys(o).map(k => [k, o[k]]);
 
@@ -129,7 +132,11 @@ class Paren {
   }
 
   fillWidget(container, value) {
-    new JsonWidget(container, value);
+    for (var i = 0; i < widgets.length; i++) {
+      if (widgets[i].applicable(value)) {
+        var widget = new widgets[i](container, value);
+      }
+    }
   }
 }
 

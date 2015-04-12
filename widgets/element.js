@@ -5,29 +5,25 @@ function ce(_, c, inner) {
   return elem;
 }
 
-class JsonWidget {
+class ElementWidget {
 
-  id: 'json'
+  id: 'element'
 
   constructor(container, value) {
     container.appendChild(ce('style', '', '@import "css/basscss.css"'));
-    this.pre = container.appendChild(ce('div', 'px1 py1 bg-silver'));
+    this.container = container.appendChild(ce('div', 'px1 py1 bg-silver'));
     this.update(value);
   }
 
   static applicable(value) {
-    try {
-      JSON.stringify(value);
-      return true;
-    } catch(e) {
-      return false;
-    }
+    return value && 'nodeType' in value;
   }
 
   update(value) {
-    this.pre.innerHTML = JSON.stringify(value, null, 2);
+    this.container.innerHTML = '';
+    this.container.appendChild(value);
   }
 
 }
 
-module.exports = JsonWidget;
+module.exports = ElementWidget;
