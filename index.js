@@ -40,12 +40,16 @@ class Paren {
   onchange() {
     this.clearErrors();
     if (this.terrarium) { this.terrarium.destroy(); }
-    this.editor.eachLine(line => {
-      if (line.text.match(/^\s*\/\/\=/)) {
-        this.editor.addLineClass(line, 'background', 'bg-light-yellow');
-      } else {
-        this.editor.removeLineClass(line);
-      }
+    this.editor.operation(() => {
+      this.clearWidgets();
+      this.clearErrors();
+      this.editor.eachLine(line => {
+        if (line.text.match(/^\s*\/\/\=/)) {
+          this.editor.addLineClass(line, 'background', 'bg-light-yellow');
+        } else {
+          this.editor.removeLineClass(line);
+        }
+      });
     });
 
     this.terrarium = new Terrarium.Browser(this.options);
@@ -80,26 +84,28 @@ class Paren {
   }
 
   joinWidgets(newData) {
-    this.clearWidgets();
-    this.clearErrors();
-    this.widgets = pairs(newData || {}).map(p => {
-      var [id, val] = p;
-      var line = val[val.length - 1].line - 1;
-      var container = ce('div', 'flex flex-wrap');
+    this.editor.operation(() => {
+      this.clearWidgets();
+      this.clearErrors();
+      this.widgets = pairs(newData || {}).map(p => {
+        var [id, val] = p;
+        var line = val[val.length - 1].line - 1;
+        var container = ce('div', 'flex flex-wrap');
 
-      var content = container.appendChild(ce('div', 'flex-auto'));
-      var root = content.createShadowRoot();
+        var content = container.appendChild(ce('div', 'flex-auto'));
+        var root = content.createShadowRoot();
 
-      var typeToggle = container.appendChild(ce('div', 'pl1', ''));
-      var select = typeToggle.appendChild(ce('select', 'py1 block field-light'));
-      var json = select.appendChild(ce('option', '', 'json'));
-      json.value = 'json';
+        var typeToggle = container.appendChild(ce('div', 'pl1', ''));
+        var select = typeToggle.appendChild(ce('select', 'py1 block field-light'));
+        var json = select.appendChild(ce('option', '', 'json'));
+        json.value = 'json';
 
-      this.makeWidget(root, val);
-      var widget = this.editor.addLineWidget(
-        line, container, { coverGutter: false, noHScroll: true });
-      if (container.onadd) container.onadd();
-      return widget;
+        this.makeWidget(root, val);
+        var widget = this.editor.addLineWidget(
+          line, container, { coverGutter: false, noHScroll: true });
+        if (container.onadd) container.onadd();
+        return widget;
+      });
     });
   }
 
@@ -116,7 +122,7 @@ class Paren {
   }
 
   makeWidget(root, values) {
-    var value = values[values.length - 1];
+    var value = values[0];
     try {
       this.fillWidget(root, value.val);
     } catch(e) { console.error(e); }
