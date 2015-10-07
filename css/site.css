@@ -1,3 +1,11 @@
+body.paren {
+  font-size:20px;
+}
+
+.bg-light-yellow {
+  background:#fdf15f;
+}
+
 .rpl-data {
   background:#eee;
   position:relative;
@@ -14,64 +22,7 @@
   color:red;
 }
 
-.rpl-data .data-name {
-  position:absolute;
-  padding:0 10px;
-  top:0;
-  box-sizing:border-box;
-  right:0;
-  line-height:23px;
-  z-index:9999;
-  background:#fff;
-  border:1px solid #aaa;
-}
-
 .CodeMirror, .CodeMirror-scroll {
   height: auto;
   min-height:20px;
-}
-
-.rpl-data .json-viewer {
-  max-height:150px;
-  overflow:auto !important;
-}
-
-.rpl-data .json-viewer.big {
-  font-size:200%;
-}
-
-.rpl-data .map-viewer {
-  height:250px;
-}
-
-.has-tip {
-  border-bottom:2px solid #e1eaf4;
-  position:relative;
-}
-
-.has-tip:hover:after {
-    background: #e1eaf4;
-    border-radius: 3px;
-    bottom: 1.35em;
-    color: #222;
-    width:300px;
-    white-space:normal !important;
-    display: block;
-    left: 1em;
-    padding: 3px;
-    position: absolute;
-    white-space: nowrap;
-    z-index: 98;
-}
-
-.has-tip:hover:before {
-    border: solid;
-    border-color: #e1eaf4 transparent;
-    border-width: .4em .4em 0 .4em;
-    bottom: 1em;
-    content: "";
-    display: block;
-    left: 2em;
-    position: absolute;
-    z-index: 99;
 }

@@ -1,0 +1,34 @@
+<html>
+  <head>
+  <meta charset='UTF-8'>
+    <link href='css/codemirror.css' rel='stylesheet' />
+    <link href='css/site.css' rel='stylesheet' />
+    <link href='css/theme.css' rel='stylesheet' />
+    <link href='css/basscss.css' rel='stylesheet' />
+  <title>paren()</title>
+  </head>
+  <body class='paren'>
+    <div class='px1 py1 bg-light-yellow'>
+      <div class='flex flex-wrap'>
+        <span class='h3 mb0 mt0 flex-auto'><code>paren()</code></span>
+        <a class='h6 caps mt1 mb0' href='https://github.com/tmcw/paren'>paren: see through code</a>
+      </div>
+    </div>
+    <div id='editor-wrap' class='px2 py2'>
+<div id='editor'>var button = document.createElement('button');
+button.innerHTML = 'click me';
+button.onclick = function(e) {
+  //=e.which
+  alert('hi');
+};
+//=button
+
+setInterval(function() {
+  var now = +new Date();
+  //=now
+}, 100);
+</div>
+    </div>
+    <script src='bundle.js'></script>
+  </body>
+</html>
